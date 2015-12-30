@@ -19,7 +19,7 @@ setup(
     author='Oleg Strizhechenko',
     author_email='oleg.strizhechenko@gmail.com',
     license='GPL',
-    url='https://github.com/strizhechenko/twitterbot-utils',
+    url='https://github.com/strizhechenko/twitterbot_utils',
     keywords='twitter api bot',
     description='wrapper around the Tweepy',
     long_description=(read('README.rst')),
