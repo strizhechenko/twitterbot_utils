@@ -1,6 +1,7 @@
 # coding: utf-8
 from time import sleep
 from hashlib import md5
+from tweepy import TweepError
 import re
 
 tweet_to_text = lambda tweet: tweet.text
@@ -17,7 +18,16 @@ def get_maximum_tweets(source):
         tweets = list(set(tweets))
         print "200 more... now:", len(tweets)
         sleep(RATE_LIMIT_INTERVAL)
-        tweets_temp = source(count=200, max_id=max_id)
+        try:
+            tweets_temp = source(count=200, max_id=max_id)
+        except TweepError as err:
+            print err, 'retry in 30 sec'
+            sleep(30)
+            try
+                tweets_temp = source(count=200, max_id=max_id)
+            except TweepError:
+                print 'ok, skip it'
+                break
     return list(set(tweets))
 
 
