@@ -7,6 +7,13 @@ import re
 tweet_to_text = lambda tweet: tweet.text
 RATE_LIMIT_INTERVAL = 15
 
+
+def tweet_length_ok(tweet):
+    if not isinstance(tweet, unicode):
+        tweet = unicode(tweet, 'utf-8')
+    return len(tweet) < 140 and len(tweet) > 0
+
+
 def get_maximum_tweets(source):
     """ Тянем твитов сколько получится, чтобы не дублироваться """
     print "get_maximum_tweets..."
@@ -23,7 +30,7 @@ def get_maximum_tweets(source):
         except TweepError as err:
             print err, 'retry in 30 sec'
             sleep(30)
-            try
+            try:
                 tweets_temp = source(count=200, max_id=max_id)
             except TweepError:
                 print 'ok, skip it'
@@ -33,6 +40,8 @@ def get_maximum_tweets(source):
 
 def get_hash(tweet_text):
     """ учитываем что люди часто немного меняют украденный твит """
+    if isinstance(tweet_text, unicode):
+        tweet_text = tweet_text.encode('utf-8')
     return md5(re.sub('[^А-Яа-яA-Za-z]', '', tweet_text)).hexdigest()
 
 
@@ -47,5 +56,5 @@ def faved_for_steal(user, target, api):
 def tweet_multiple(tweets, bot):
     """ Твитит все твиты по очереди, есть защита от rate limit """
     for tweet in tweets:
-        bot.tweet(tweet.encode('utf-8'))
+        bot.tweet(tweet)
         sleep(RATE_LIMIT_INTERVAL)

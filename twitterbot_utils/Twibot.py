@@ -2,6 +2,7 @@
 import os
 import sys
 from tweepy import OAuthHandler, API, TweepError
+from TwiUtils import tweet_length_ok
 
 
 class Twibot():
@@ -39,16 +40,18 @@ class Twibot():
 
 
     def tweet(self, tweet):
-        # 260 because encode('utf-8')
-        if len(tweet) <= 260 and len(tweet) > 0:
-            try:
-                self.api.update_status(tweet)
-                return True
-            except TweepError as err:
-                print tweet, err
-            except Exception as err:
-                print "cant log exception"
-                pass
+        if not tweet_length_ok(tweet):
+            return None
+        if isinstance(tweet, unicode):
+            tweet = tweet.encode('utf-8')
+        try:
+            self.api.update_status(tweet)
+            return True
+        except TweepError as err:
+            print tweet, err
+        except Exception as err:
+            print "cant log exception"
+            pass
         return False
 
     def wipe(self):
