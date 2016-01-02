@@ -4,7 +4,7 @@ from hashlib import md5
 from tweepy import TweepError
 import re
 
-tweet_to_text = lambda tweet: tweet.text
+tweet_to_text = lambda tweet: tweet.text.lower()
 RATE_LIMIT_INTERVAL = 15
 
 
