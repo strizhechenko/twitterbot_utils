@@ -3,7 +3,7 @@
 import os
 import sys
 from tweepy import OAuthHandler, API, TweepError
-from TwiUtils import tweet_length_ok
+from twitterbot_utils.TwiUtils import tweet_length_ok
 
 
 class Twibot():
@@ -20,9 +20,8 @@ class Twibot():
             'access_token': os.environ.get('user_access_token'),
             'access_secret': os.environ.get('user_access_secret'),
         }
-        for d in (app, user,):
-            if None in d.values():
-                raise ValueError('bad config %s' % d)
+        if None in app.values() + user.values():
+            raise ValueError('bad config:' + str(app) + str(user))
         return app, user
 
     @staticmethod
@@ -37,6 +36,7 @@ class Twibot():
 
 
     def fetch(self, count=3):
+        """ подтягивает свои собственные твиты """
         return self.api.home_timeline(count=count)
 
 
