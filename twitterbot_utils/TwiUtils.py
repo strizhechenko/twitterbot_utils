@@ -58,7 +58,7 @@ def tweet_multiple(tweets, bot, logging=False):
     for tweet in tweets:
         bot.tweet(tweet)
         if logging:
-            if isinstance(tweet, unicode)
+            if isinstance(tweet, unicode):
                 tweet = tweet.encode('utf-8')
             print 'post:', tweet
         sleep(RATE_LIMIT_INTERVAL)
