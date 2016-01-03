@@ -53,8 +53,12 @@ def faved_for_steal(user, target, api):
     return filter(lambda tweet: tweet not in my_tweets, tweets)
 
 
-def tweet_multiple(tweets, bot):
+def tweet_multiple(tweets, bot, logging=False):
     """ Твитит все твиты по очереди, есть защита от rate limit """
     for tweet in tweets:
         bot.tweet(tweet)
+        if logging:
+            if isinstance(tweet, unicode)
+                tweet = tweet.encode('utf-8')
+            print 'post:', tweet
         sleep(RATE_LIMIT_INTERVAL)
