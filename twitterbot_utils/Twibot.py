@@ -1,4 +1,5 @@
 # coding: utf-8
+""" Бот-прослойка для авторизации и постинга, ориентирован на heroku """
 import os
 import sys
 from tweepy import OAuthHandler, API, TweepError
@@ -25,14 +26,14 @@ class Twibot():
         return app, user
 
     @staticmethod
-    def conf_dict_to_api(app, user):
+    def __conf_dict_to_api__(app, user):
         auth = OAuthHandler(app['consumer_key'], app['consumer_secret'])
         auth.set_access_token(user['access_token'], user['access_secret'])
         return API(auth)
 
     def __init__(self):
         app, user = self.conf_dict_from_env()
-        self.api = self.conf_dict_to_api(app, user)
+        self.api = self.__conf_dict_to_api__(app, user)
 
 
     def fetch(self, count=3):
@@ -40,10 +41,12 @@ class Twibot():
 
 
     def tweet(self, tweet):
+        """ постит твит, кушает unicode / str, не кидает Exception """
         if not tweet_length_ok(tweet):
             return None
         if isinstance(tweet, unicode):
             tweet = tweet.encode('utf-8')
+        tweet = tweet.replace('&gt;', '>').replace('&lt;', '<')
         try:
             self.api.update_status(tweet)
             return True
@@ -51,10 +54,10 @@ class Twibot():
             print tweet, err
         except Exception as err:
             print "cant log exception"
-            pass
         return False
 
     def wipe(self):
+        """ удаляет никем не фавнутые/ретвитнутые твиты """
         new_tweets = 30
         for tweet in self.fetch(200)[new_tweets:]:
             if tweet.favorite_count == 0 and tweet.retweet_count == 0:
