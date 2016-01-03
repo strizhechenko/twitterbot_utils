@@ -6,7 +6,7 @@ from tweepy import OAuthHandler, API, TweepError
 from twitterbot_utils.TwiUtils import tweet_length_ok
 
 
-class Twibot():
+class Twibot(object):
     """ Бот-прослойка для упрощения авторизации """
 
     @staticmethod
@@ -34,32 +34,24 @@ class Twibot():
         app, user = self.conf_dict_from_env()
         self.api = self.__conf_dict_to_api__(app, user)
 
-
-    def fetch(self, count=3):
-        """ подтягивает свои собственные твиты """
-        return self.api.home_timeline(count=count)
-
-
     def tweet(self, tweet):
         """ постит твит, кушает unicode / str, не кидает Exception """
         if not tweet_length_ok(tweet):
-            return None
+            return
         if isinstance(tweet, unicode):
             tweet = tweet.encode('utf-8')
         tweet = tweet.replace('&gt;', '>').replace('&lt;', '<')
         try:
             self.api.update_status(tweet)
-            return True
         except TweepError as err:
             print tweet, err
         except Exception as err:
             print "cant log exception"
-        return False
 
     def wipe(self):
         """ удаляет никем не фавнутые/ретвитнутые твиты """
         new_tweets = 30
-        for tweet in self.fetch(200)[new_tweets:]:
+        for tweet in self.api.home_timeline(200)[new_tweets:]:
             if tweet.favorite_count == 0 and tweet.retweet_count == 0:
                 tweet.destroy()
 
