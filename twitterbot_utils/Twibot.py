@@ -8,7 +8,6 @@ from twitterbot_utils.TwiUtils import tweet_length_ok
 
 class Twibot(object):
     """ Бот-прослойка для упрощения авторизации """
-
     @staticmethod
     def conf_dict_from_env():
         """ Подтягиваем конфиги из environment """
@@ -34,27 +33,28 @@ class Twibot(object):
         app, user = self.conf_dict_from_env()
         self.api = self.__conf_dict_to_api__(app, user)
 
+    @staticmethod
+    def __normalize_tweet__(tweet):
+        if isinstance(tweet, unicode):
+            tweet = tweet.encode('utf-8')
+        return tweet.replace('&gt;', '>').replace('&lt;', '<')
+
     def tweet(self, tweet):
         """ постит твит, кушает unicode / str, не кидает Exception """
         if not tweet_length_ok(tweet):
             return
-        if isinstance(tweet, unicode):
-            tweet = tweet.encode('utf-8')
-        tweet = tweet.replace('&gt;', '>').replace('&lt;', '<')
         try:
-            self.api.update_status(tweet)
+            self.api.update_status(self.__normalize_tweet__(tweet))
         except TweepError as err:
             print tweet, err
         except Exception as err:
             print "cant log exception"
 
     def wipe(self):
-        """ удаляет никем не фавнутые/ретвитнутые твиты """
-        new_tweets = 30
-        for tweet in self.api.home_timeline(200)[new_tweets:]:
-            if tweet.favorite_count == 0 and tweet.retweet_count == 0:
+        """ удаляет никем не фавнутые/ретвитнутые твиты, кроме последних 30 """
+        for tweet in self.api.home_timeline(200)[30:]:
+            if tweet.favorite_count + tweet.retweet_count == 0:
                 tweet.destroy()
-
 
 if __name__ == '__main__':
     Twibot().tweet(" ".join(sys.argv[1:]))
