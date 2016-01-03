@@ -22,12 +22,12 @@ You can install twitterbot-utils using::
 Getting the code
 ================
 
-The code is hosted at https://github.com/strizhechenko/twitterbot-utils
+The code is hosted at https://github.com/strizhechenko/twitterbot_utils
 
 Check out the latest development version anonymously with::
 
-    $ git clone git://github.com/strizhechenko/twitterbot-utils.git
-    $ cd twitterbot-utils
+    $ git clone git://github.com/strizhechenko/twitterbot_utils.git
+    $ cd twitterbot_utils
 
 Setup a virtual environment and install dependencies:
 
