@@ -9,15 +9,15 @@ from twitterbot_utils.TwiUtils import tweet_length_ok
 class Twibot(object):
     """ Бот-прослойка для упрощения авторизации """
     @staticmethod
-    def conf_dict_from_env():
+    def conf_dict_from_env(username):
         """ Подтягиваем конфиги из environment """
         app = {
             'consumer_key': os.environ.get('consumer_key'),
             'consumer_secret': os.environ.get('consumer_secret'),
         }
         user = {
-            'access_token': os.environ.get('user_access_token'),
-            'access_secret': os.environ.get('user_access_secret'),
+            'access_token': os.environ.get(username + '_access_token'),
+            'access_secret': os.environ.get(username + '_access_secret'),
         }
         if None in app.values() + user.values():
             raise ValueError('bad config:' + str(app) + str(user))
@@ -29,8 +29,8 @@ class Twibot(object):
         auth.set_access_token(user['access_token'], user['access_secret'])
         return API(auth)
 
-    def __init__(self):
-        app, user = self.conf_dict_from_env()
+    def __init__(self, username='user'):
+        app, user = self.conf_dict_from_env(username)
         self.api = self.__conf_dict_to_api__(app, user)
 
     @staticmethod
