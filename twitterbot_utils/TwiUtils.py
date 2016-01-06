@@ -40,9 +40,10 @@ def get_maximum_tweets(source):
 
 def get_hash(tweet_text):
     """ учитываем что люди часто немного меняют украденный твит """
-    if isinstance(tweet_text, unicode):
-        tweet_text = tweet_text.encode('utf-8')
-    return md5(re.sub('[^А-Яа-яA-Za-z]', '', tweet_text)).hexdigest()
+    if not isinstance(tweet_text, unicode):
+        tweet_text = unicode(tweet_text, 'utf-8')
+    text_value = re.sub(u'[^А-Яа-яA-Za-z]', '', tweet_text)
+    return md5(text_value.encode('utf-8')).hexdigest()
 
 
 def faved_for_steal(user, target, api):
