@@ -12,3 +12,6 @@ class TwiAuth():
         self.auth.get_access_token(verifier)
         print u'export user_access_token=' + self.auth.access_token
         print u'export user_access_secret=' + self.auth.access_token_secret
+
+if __name__ == '__main__':
+    TwiAuth().do_auth()
