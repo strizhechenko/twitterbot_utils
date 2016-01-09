@@ -46,7 +46,14 @@ No test on current state avaible.
 Documentation
 =============
 
-No documentation on current state avaible.
+Authorize your bot:
+
+        source env/bin/activate
+        export consumer_key=xxx
+        export consumer_secret=xxy
+        python -m twitterbot_utils.TwiAuth
+
+When, copy PIN and get your access token/secret to put in heroku config.
 
 =====
 TODO
