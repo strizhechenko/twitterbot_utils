@@ -24,7 +24,7 @@ setup(
     description='wrapper around the Tweepy',
     long_description=(read('README.rst')),
     packages=find_packages(exclude=['tests*']),
-    install_requires=['tweepy==3.1.0', 'requests==2.4.3', 'requests-oauthlib==0.4.1'],
+    install_requires=['tweepy==3.1.0', 'requests==2.4.3', 'requests-oauthlib==0.4.1', 'pymorphy2'],
     classifiers=[
       'Development Status :: 3 - Alpha',
       'Intended Audience :: Developers',
