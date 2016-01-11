@@ -12,9 +12,14 @@ RATE_LIMIT_INTERVAL = 15
 morph = MorphAnalyzer()
 
 
+def any_to_unicode(text):
+    if not isinstance(text, unicode):
+        text = unicode(text, 'utf-8')
+    return text
+
+
 def tweet_length_ok(tweet):
-    if not isinstance(tweet, unicode):
-        tweet = unicode(tweet, 'utf-8')
+    tweet = any_to_unicode(tweet)
     return len(tweet) < 140 and len(tweet) > 0
 
 
@@ -73,12 +78,6 @@ def any_tweet_to_str(tweet):
         return None
 
 
-def any_to_unicode(text):
-    if not isinstance(text, unicode):
-        text = unicode(text, 'utf-8')
-    return text
-
-
 def __md5__(text):
     return md5(any_tweet_to_str(text)).hexdigest()
 
@@ -95,14 +94,3 @@ def faved_for_steal(user, target, api):
     tweets = filter(bots_tweets, api.favorites(screen_name=user, count=200))
     tweets = map(tweet_to_text, tweets)
     return filter(lambda tweet: tweet not in my_tweets, tweets)
-
-
-def tweet_multiple(tweets, bot, logging=False):
-    """ Твитит все твиты по очереди, есть защита от rate limit """
-    for tweet in tweets:
-        bot.tweet(tweet)
-        if logging:
-            if isinstance(tweet, unicode):
-                tweet = tweet.encode('utf-8')
-            print 'post:', tweet
-        sleep(RATE_LIMIT_INTERVAL)

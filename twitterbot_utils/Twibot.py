@@ -2,8 +2,10 @@
 """ Бот-прослойка для авторизации и постинга, ориентирован на heroku """
 import os
 import sys
+from time import sleep
+
 from tweepy import OAuthHandler, API, TweepError
-from twitterbot_utils.TwiUtils import tweet_length_ok
+from twitterbot_utils import tweet_length_ok, RATE_LIMIT_INTERVAL
 
 
 class Twibot(object):
@@ -49,6 +51,16 @@ class Twibot(object):
             print tweet, err
         except Exception as err:
             print "cant log exception"
+
+    def tweet_multiple(self, tweets, logging=False):
+        """ Твитит все твиты по очереди, есть защита от rate limit """
+        for tweet in tweets:
+            self.tweet(tweet)
+            if logging:
+                if isinstance(tweet, unicode):
+                    tweet = tweet.encode('utf-8')
+                print 'post:', tweet
+            sleep(RATE_LIMIT_INTERVAL)
 
     def wipe(self):
         """ удаляет никем не фавнутые/ретвитнутые твиты, кроме последних 30 """
