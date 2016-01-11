@@ -83,9 +83,10 @@ def __md5__(text):
     return md5(any_tweet_to_str(text)).hexdigest()
 
 
-def get_hash(tweet_text):
+def get_hash(tweet_text, plaintext=False):
     """ учитываем что люди часто немного меняют украденный твит """
-    return __md5__(text_value(any_to_unicode(tweet_text)))
+    value = text_value(any_to_unicode(tweet_text))
+    return plaintext and value or __md5__(value)
 
 
 def faved_for_steal(user, target, api):
