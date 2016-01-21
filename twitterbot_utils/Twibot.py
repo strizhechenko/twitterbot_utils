@@ -48,9 +48,11 @@ class Twibot(object):
         try:
             self.api.update_status(self.__normalize_tweet__(tweet))
         except TweepError as err:
-            print tweet, err
-        except Exception as err:
-            print "cant log exception"
+            print 'tweet type:', type(tweet)
+            try:
+                print tweet, err
+            except Exception as err:
+                print "cant log exception"
 
     def tweet_multiple(self, tweets, logging=False):
         """ Твитит все твиты по очереди, есть защита от rate limit """
