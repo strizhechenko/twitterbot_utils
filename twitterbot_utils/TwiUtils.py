@@ -23,26 +23,30 @@ def tweet_length_ok(tweet):
     return len(tweet) < 140 and len(tweet) > 0
 
 
-def get_maximum_tweets(source, timeout=RATE_LIMIT_INTERVAL, timeout2=30):
+def get_maximum_tweets(source, timeout=RATE_LIMIT_INTERVAL, logging=False):
     """ Тянем твитов сколько получится, чтобы не дублироваться """
-    print "get_maximum_tweets..."
+    if logging:
+        print "get_maximum_tweets..."
     tweets = []
     tweets_temp = source(count=200)
     while tweets_temp:
         max_id = tweets_temp[-1].id - 1
         tweets.extend([t.text for t in tweets_temp])
         tweets = list(set(tweets))
-        print "200 more... now:", len(tweets)
+        if logging:
+            print "200 more... now:", len(tweets)
         sleep(timeout)
         try:
             tweets_temp = source(count=200, max_id=max_id)
         except tweepy.TweepError as err:
-            print err, 'retry in 30 sec'
-            sleep(timeout2)
+            if logging:
+                print err, 'retry in 30 sec'
+            sleep(30)
             try:
                 tweets_temp = source(count=200, max_id=max_id)
             except tweepy.TweepError:
-                print 'ok, skip it'
+                if logging:
+                    print 'ok, skip it'
                 break
     return list(set(tweets))
 
