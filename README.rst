@@ -1,4 +1,5 @@
-.. image:: https://travis-ci.org/strizhechenko/twitterbot_utils.svg?branch=master https://coveralls.io/repos/github/strizhechenko/twitterbot_utils/badge.svg?branch=master
+.. image:: https://travis-ci.org/strizhechenko/twitterbot_utils.svg?branch=master 
+.. image:: https://coveralls.io/repos/github/strizhechenko/twitterbot_utils/badge.svg?branch=master
  
 Twitterbot utils
 
