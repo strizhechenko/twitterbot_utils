@@ -1,5 +1,5 @@
-.. image:: https://travis-ci.org/strizhechenko/twitterbot_utils.svg?branch=master
-
+.. image:: https://travis-ci.org/strizhechenko/twitterbot_utils.svg?branch=master https://coveralls.io/repos/github/strizhechenko/twitterbot_utils/badge.svg?branch=master
+ 
 Twitterbot utils
 
 Useful functions for everyone who want to write one more xxx everyword bot.
