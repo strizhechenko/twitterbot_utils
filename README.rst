@@ -1,3 +1,6 @@
+.. image:: https://travis-ci.org/druid-io/druid.svg?branch=master
+
+
 Twitterbot utils
 
 Useful functions for everyone who want to write one more xxx everyword bot.
