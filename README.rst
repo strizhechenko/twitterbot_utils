@@ -1,6 +1,5 @@
 .. image:: https://travis-ci.org/strizhechenko/twitterbot_utils.svg?branch=master
 
-
 Twitterbot utils
 
 Useful functions for everyone who want to write one more xxx everyword bot.
