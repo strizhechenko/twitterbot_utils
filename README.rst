@@ -1,9 +1,13 @@
-.. image:: https://travis-ci.org/strizhechenko/twitterbot_utils.svg?branch=master 
-.. image:: https://coveralls.io/repos/github/strizhechenko/twitterbot_utils/badge.svg?branch=master :target: https://coveralls.io/github/strizhechenko/twitterbot_utils?branch=master
-
 ============
 Twitterbot utils
 ============
+
+.. image:: https://img.shields.io/travis/strizhechenko/twitterbot_utils/master.svg
+    :target: https://travis-ci.org/strizhechenko/coveralls-python
+
+
+
+
 
 Useful functions for everyone who want to write one more xxx everyword bot.
 
