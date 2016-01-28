@@ -3,9 +3,7 @@ language: python
 os: linux
 
 python:
-  - "2.6"
   - "2.7"
-  - nightly
 
 install: 
   - pip install -r requirements.txt
