@@ -1,5 +1,4 @@
-.. image:: https://travis-ci.org/druid-io/druid.svg?branch=master
-
+.. image:: https://travis-ci.org/strizhechenko/twitterbot_utils.svg?branch=master
 
 Twitterbot utils
 
