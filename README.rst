@@ -64,6 +64,13 @@ Authorize your bot:
 
 When, copy PIN and get your access token/secret to put in heroku config.
 
+
+=====
+usage (ru guide)
+=====
+
+https://github.com/strizhechenko/twitterbot_example.git
+
 =====
 TODO
 =====
