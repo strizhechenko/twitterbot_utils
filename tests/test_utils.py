@@ -15,3 +15,9 @@ class TestUtils(unittest.TestCase):
         """ tweepy.Status, str и unicode должны стать unicode """
         for string in TEST_STRINGS:
             assert TwiUtils.any_to_unicode(string) == u'тестовая строка'
+
+    @staticmethod
+    def test_remove_mention():
+        mention = u"@botname Алла Пугачёва"
+        need = u"Алла Пугачёва"
+        assert TwiUtils.remove_mentions(mention) == need
