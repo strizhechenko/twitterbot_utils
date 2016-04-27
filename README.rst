@@ -1,6 +1,13 @@
-.. image:: https://travis-ci.org/strizhechenko/twitterbot_utils.svg?branch=master
-
+============
 Twitterbot utils
+============
+
+.. image:: https://img.shields.io/travis/strizhechenko/twitterbot_utils/master.svg
+    :target: https://travis-ci.org/strizhechenko/coveralls-python
+
+
+
+
 
 Useful functions for everyone who want to write one more xxx everyword bot.
 
@@ -56,6 +63,13 @@ Authorize your bot:
         python -m twitterbot_utils.TwiAuth
 
 When, copy PIN and get your access token/secret to put in heroku config.
+
+
+=====
+usage (ru guide)
+=====
+
+https://github.com/strizhechenko/twitterbot_example.git
 
 =====
 TODO
