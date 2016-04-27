@@ -33,7 +33,7 @@ class Twibot(object):
     def __init__(self, username='user'):
         app, user = self.conf_dict_from_env(username)
         self.api = self.__conf_dict_to_api__(app, user)
-        self.api.api.wait_on_rate_limit = True
+        self.api.wait_on_rate_limit = True
 
     @staticmethod
     def __normalize_tweet__(tweet):
