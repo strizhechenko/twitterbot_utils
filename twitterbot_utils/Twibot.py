@@ -2,10 +2,9 @@
 """ Бот-прослойка для авторизации и постинга, ориентирован на heroku """
 import os
 import sys
-from time import sleep
 
 from tweepy import OAuthHandler, API, TweepError
-from twitterbot_utils import tweet_length_ok, RATE_LIMIT_INTERVAL
+from twitterbot_utils import tweet_length_ok
 
 
 class Twibot(object):
@@ -34,6 +33,7 @@ class Twibot(object):
     def __init__(self, username='user'):
         app, user = self.conf_dict_from_env(username)
         self.api = self.__conf_dict_to_api__(app, user)
+        self.api.api.wait_on_rate_limit = True
 
     @staticmethod
     def __normalize_tweet__(tweet):
@@ -62,7 +62,6 @@ class Twibot(object):
                 if isinstance(tweet, unicode):
                     tweet = tweet.encode('utf-8')
                 print 'post:', tweet
-            sleep(RATE_LIMIT_INTERVAL)
 
     def wipe(self):
         """ удаляет никем не фавнутые/ретвитнутые твиты, кроме последних 30 """

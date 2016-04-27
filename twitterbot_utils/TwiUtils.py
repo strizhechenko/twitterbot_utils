@@ -1,5 +1,4 @@
 # coding: utf-8
-from time import sleep
 from hashlib import md5
 import re
 
@@ -8,7 +7,6 @@ from pymorphy2 import MorphAnalyzer
 from pymorphy2.units.unkn import UnknAnalyzer
 
 tweet_to_text = lambda tweet: tweet.text.lower()
-RATE_LIMIT_INTERVAL = 15
 morph = MorphAnalyzer()
 
 
@@ -23,7 +21,7 @@ def tweet_length_ok(tweet):
     return len(tweet) < 140 and len(tweet) > 0
 
 
-def get_maximum_tweets(source, timeout=RATE_LIMIT_INTERVAL, logging=False):
+def get_maximum_tweets(source, logging=False):
     """ Тянем твитов сколько получится, чтобы не дублироваться """
     if logging:
         print "get_maximum_tweets..."
@@ -35,19 +33,10 @@ def get_maximum_tweets(source, timeout=RATE_LIMIT_INTERVAL, logging=False):
         tweets = list(set(tweets))
         if logging:
             print "200 more... now:", len(tweets)
-        sleep(timeout)
         try:
             tweets_temp = source(count=200, max_id=max_id)
         except tweepy.TweepError as err:
-            if logging:
-                print err, 'retry in 30 sec'
-            sleep(30)
-            try:
-                tweets_temp = source(count=200, max_id=max_id)
-            except tweepy.TweepError:
-                if logging:
-                    print 'ok, skip it'
-                break
+            break
     return list(set(tweets))
 
 
