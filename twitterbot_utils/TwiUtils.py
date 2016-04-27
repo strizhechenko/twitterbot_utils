@@ -67,6 +67,10 @@ def text_value(text):
     return u' '.join(normal_forms)
 
 
+def remove_mentions(request):
+    return re.sub(r"@[^ ]+", "", request, re.UNICODE).strip()
+
+
 def any_tweet_to_str(tweet):
     """ Status / unicode / str """
     if isinstance(tweet, tweepy.models.Status):
