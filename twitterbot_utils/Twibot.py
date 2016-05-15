@@ -41,16 +41,20 @@ class Twibot(object):
             tweet = tweet.encode('utf-8')
         return tweet.replace('&gt;', '>').replace('&lt;', '<')
 
-    def tweet(self, tweet):
+    def tweet(self, tweet, check_length=True):
         """ постит твит, кушает unicode / str, не кидает Exception """
-        if not tweet_length_ok(tweet):
+        if check_length and not tweet_length_ok(tweet):
+            print 'bad tweet length'
             return
         try:
             self.api.update_status(self.__normalize_tweet__(tweet))
         except TweepError as err:
             print 'tweet type:', type(tweet)
             try:
-                print tweet, err
+                if type(tweet) == unicode:
+                    print tweet.encode('utf-8'), err
+                else:
+                    print tweet, err
             except Exception as err:
                 print "cant log exception"
 
