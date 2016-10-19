@@ -1,38 +1,46 @@
 # coding: utf-8
 """ Бот-прослойка для авторизации и постинга, ориентирован на heroku """
-import os
 import sys
-
+from os import getenv
+from dictator import Dictator
 from tweepy import OAuthHandler, API, TweepError
 from twitterbot_utils import tweet_length_ok
 
 
 class Twibot(object):
     """ Бот-прослойка для упрощения авторизации """
-    @staticmethod
-    def conf_dict_from_env(username):
+    def conf_dict_from_env(self, username):
         """ Подтягиваем конфиги из environment """
-        app = {
-            'consumer_key': os.environ.get('consumer_key'),
-            'consumer_secret': os.environ.get('consumer_secret'),
+        self.app = {
+            'consumer_key': getenv('consumer_key'),
+            'consumer_secret': getenv('consumer_secret'),
         }
-        user = {
-            'access_token': os.environ.get(username + '_access_token'),
-            'access_secret': os.environ.get(username + '_access_secret'),
+        self.user = {
+            'access_token': getenv(username + '_access_token'),
+            'access_secret': getenv(username + '_access_secret'),
         }
         if None in app.values() + user.values():
             raise ValueError('bad config:' + str(app) + str(user))
-        return app, user
 
-    @staticmethod
-    def __conf_dict_to_api__(app, user):
+    def conf_dict_from_redis(self, username):
+        """ Подтягиваем конфиги из redis"""
+        d = Dictator()
+        self.app = d.get('__app__')
+        self.user = d.get(username)
+        if None in app.values() + user.values():
+            raise ValueError('bad config: {0} {1}'.format(app, user))
+
+    def conf_dict_to_api(self):
         auth = OAuthHandler(app['consumer_key'], app['consumer_secret'])
         auth.set_access_token(user['access_token'], user['access_secret'])
-        return API(auth)
+        self.api = API(auth)
 
-    def __init__(self, username='user'):
-        app, user = self.conf_dict_from_env(username)
-        self.api = self.__conf_dict_to_api__(app, user)
+    def __init__(self, username='user', method='env'):
+        getuser = self.conf_dict_from_env
+        if method == 'redis':
+            getuser = self.conf_dict_from_redis
+        getuser(username)
+        self.conf_dict_to_api()
         self.api.wait_on_rate_limit = True
 
     @staticmethod

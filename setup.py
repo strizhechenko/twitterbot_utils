@@ -15,7 +15,7 @@ def read(*paths):
 
 setup(
     name='twitterbot_utils',
-    version='0.1.8',
+    version='0.1.9',
     author='Oleg Strizhechenko',
     author_email='oleg.strizhechenko@gmail.com',
     license='GPL',
@@ -24,7 +24,7 @@ setup(
     description='wrapper around the Tweepy',
     long_description=(read('README.rst')),
     packages=find_packages(exclude=['tests*']),
-    install_requires=['tweepy==3.1.0', 'requests==2.4.3', 'requests-oauthlib==0.4.1', 'pymorphy2'],
+    install_requires=['tweepy==3.1.0', 'requests==2.4.3', 'requests-oauthlib==0.4.1', 'pymorphy2', 'dictator'],
     classifiers=[
       'Development Status :: 3 - Alpha',
       'Intended Audience :: Developers',
