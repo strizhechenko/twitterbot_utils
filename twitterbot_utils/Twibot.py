@@ -19,8 +19,8 @@ class Twibot(object):
             'access_token': getenv(username + '_access_token'),
             'access_secret': getenv(username + '_access_secret'),
         }
-        if None in app.values() + user.values():
-            raise ValueError('bad config:' + str(app) + str(user))
+        if None in self.app.values() + self.user.values():
+            raise ValueError('bad config:' + str(self.app) + str(self.user))
 
     def conf_dict_from_redis(self, username):
         """ Подтягиваем конфиги из redis"""
@@ -31,8 +31,8 @@ class Twibot(object):
             raise ValueError('bad config: {0} {1}'.format(app, user))
 
     def conf_dict_to_api(self):
-        auth = OAuthHandler(app['consumer_key'], app['consumer_secret'])
-        auth.set_access_token(user['access_token'], user['access_secret'])
+        auth = OAuthHandler(self.app['consumer_key'], self.app['consumer_secret'])
+        auth.set_access_token(self.user['access_token'], self.user['access_secret'])
         self.api = API(auth)
 
     def __init__(self, username='user', method='env'):
