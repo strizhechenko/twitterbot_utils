@@ -1,3 +1,4 @@
 requests==2.6.0
 requests-oauthlib==0.4.1
 tweepy==3.1.0
+dictator

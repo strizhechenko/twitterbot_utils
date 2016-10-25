@@ -9,6 +9,7 @@ from twitterbot_utils import tweet_length_ok
 
 class Twibot(object):
     """ Бот-прослойка для упрощения авторизации """
+
     def conf_dict_from_env(self, username):
         """ Подтягиваем конфиги из environment """
         self.app = {
@@ -24,22 +25,32 @@ class Twibot(object):
 
     def conf_dict_from_redis(self, username):
         """ Подтягиваем конфиги из redis"""
-        d = Dictator()
-        self.app = d.get('__app__')
-        self.user = d.get(username)
-        if None in app.values() + user.values():
-            raise ValueError('bad config: {0} {1}'.format(app, user))
+        auth = Dictator()
+        consumer_key, consumer_secret = auth.get('__app__')
+        _, db_id, access_token, access_secret = auth.get('@' + username)
+        self.app = {
+            'consumer_key': consumer_key,
+            'consumer_secret': consumer_secret,
+        }
+        self.user = {
+            'access_token': access_token,
+            'access_secret': access_secret,
+        }
+        self.db = Dictator(db_id)
+        if None in self.app.values() + self.user.values():
+            raise ValueError('bad config: {0} {1}'.format(self.app, self.user))
 
     def conf_dict_to_api(self):
+        """ Real auth with self.app/self.user """
         auth = OAuthHandler(self.app['consumer_key'], self.app['consumer_secret'])
         auth.set_access_token(self.user['access_token'], self.user['access_secret'])
         self.api = API(auth)
 
     def __init__(self, username='user', method='env'):
-        getuser = self.conf_dict_from_env
         if method == 'redis':
-            getuser = self.conf_dict_from_redis
-        getuser(username)
+            self.conf_dict_from_redis(username)
+        else:
+            self.conf_dict_from_env(username)
         self.conf_dict_to_api()
         self.api.wait_on_rate_limit = True
 
@@ -59,7 +70,7 @@ class Twibot(object):
         except TweepError as err:
             print 'tweet type:', type(tweet)
             try:
-                if type(tweet) == unicode:
+                if isinstance(tweet, unicode):
                     print tweet.encode('utf-8'), err
                 else:
                     print tweet, err
