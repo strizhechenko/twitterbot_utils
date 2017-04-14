@@ -76,3 +76,8 @@ TODO
 =====
 
 Usage, docs, tests.
+
+See also:
+====
+
+https://github.com/strizhechenko/twitterbot_farm
