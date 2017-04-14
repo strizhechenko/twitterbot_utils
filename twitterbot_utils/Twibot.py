@@ -35,9 +35,9 @@ class Twibot(object):
         auth.set_access_token(self.user['access_token'], self.user['access_secret'])
         self.api = API(auth)
 
-    def __init__(self, username='user', method='env', consumer_key=None, consumer_secret=None, access_token=None, access_secret=None):
+    def __init__(self, username='user', method='env', consumer_key=None, consumer_secret=None, access_token=None, access_secret=None, **kwargs):
         if method == 'params':
-            self.params2conf(consumer_key, consumer_secret, access_token, access_secret)
+            self.params2conf(consumer_key, consumer_secret, access_token, access_secret, kwargs)
         else:
             self.env2conf(username)
         self.conf2api()
