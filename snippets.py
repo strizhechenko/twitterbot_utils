@@ -1,4 +1,5 @@
 from tweepy import TweepError
+from time import sleep
 
 def retry(method):
     try:
