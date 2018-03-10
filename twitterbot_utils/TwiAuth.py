@@ -2,8 +2,8 @@ import tweepy, webbrowser, os
 
 class TwiAuth():
     def __init__(self):
-        self.consumer_key = os.environ.get('consumer_key')
-        self.consumer_secret = os.environ.get('consumer_secret')
+        self.consumer_key = os.getenv('consumer_key')
+        self.consumer_secret = os.getenv('consumer_secret')
         self.auth = tweepy.OAuthHandler(self.consumer_key, self.consumer_secret)
 
     def do_auth(self):
